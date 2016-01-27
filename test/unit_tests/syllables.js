@@ -1,28 +1,31 @@
 'use strict';
 let mocha = require('mocha');
 let should = require('should');
-let Term = require('../../../src/term/term.js');
+//apply the plugin
+const syllables = require('../../src/index.js');
+const nlp = require('../../../nlp-core');
+nlp.plugin(syllables);
 
 describe('syllables', function() {
 
   //americanize it
-  it('count syllables', function(done) {
+  it('count syllables for term', function(done) {
     let tests = [
       ['suddenly', 3],
       ['constipation', 4],
       ['diabolic', 4],
-      // ['fate', 1],
       ['fated', 2],
-      // ['fates', 1],
       ['genetic', 3],
-      // ['deviled', 3],
       ['imitated', 4],
       ['tree', 1],
       ['civilised', 3],
-    // ['horse', 1],
+    // ['fate', 1],
+    // ['fates', 1],
+    // ['deviled', 3],
+    // ['horse', 1]
     ];
     tests.forEach(function(a) {
-      let t = new Term(a[0]);
+      let t = nlp.term(a[0]);
       t.syllables().length.should.equal(a[1]);
     });
     done();

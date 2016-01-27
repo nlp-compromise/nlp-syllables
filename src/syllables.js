@@ -34,6 +34,12 @@ function postprocess(arr) {
 const syllables = function(str) {
   let all = [];
 
+  if (str.match(' ')) {
+    return str.split(/ /g).map(function(s) {
+      return syllables(s);
+    });
+  }
+
   //method is nested because it's called recursively
   const doer = function(w) {
     const vow = /[aeiouy]$/;
