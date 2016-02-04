@@ -3,7 +3,7 @@ let mocha = require('mocha');
 let should = require('should');
 //apply the plugin
 const syllables = require('../../src/index.js');
-const nlp = require('../../../nlp-core');
+const nlp = require('../../../nlp_compromise');
 nlp.plugin(syllables);
 
 describe('syllables', function() {

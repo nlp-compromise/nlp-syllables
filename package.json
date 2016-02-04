@@ -1,12 +1,12 @@
 {
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
-  "name": "nlp-core",
-  "description": "natural language processing in the browser",
-  "version": "3.0.0",
-  "main": "src/index.js",
+  "name": "nlp-syllables",
+  "description": "splitting of text into syllables",
+  "version": "0.0.1",
+  "main": "builds/nlp-syllables.es5.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nlp-compromise/nlp-core.git"
+    "url": "git://github.com/nlp-compromise/nlp-syllables.git"
   },
   "scripts": {
     "run": "grunt",
@@ -14,8 +14,11 @@
     "watch": "grunt watch",
     "build": "grunt build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "nlp_compromise":">=3.0.0"
+  },
   "devDependencies": {
+    "babel-preset-es2015": "6.3.13",
     "babelify": "7.2.0",
     "grunt": "0.4.5",
     "grunt-contrib-watch": "0.6.1",

@@ -2,7 +2,7 @@
 const syllables = require('./syllables');
 
 // set method on 'Term', then reference that on Sentence & Text
-let plugin = {
+let nlpSyllables = {
   Term: {
     syllables : function() {
       return syllables(this.normal);
@@ -24,7 +24,9 @@ let plugin = {
   }
 };
 
-module.exports = plugin;
+module.exports = nlpSyllables;
 
+// const nlp = require('nlp_compromise');
+// nlp.plugin(nlpSyllables);
 // let w = nlp.text('i see canadian tire');
 // console.log(w.syllables());
