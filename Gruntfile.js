@@ -2,6 +2,8 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
 
+    pkg: grunt.file.readJSON('./package.json'),
+
     watch: {
       files: ['./src/*', './src/**'],
       tasks: ['run:index']
@@ -12,14 +14,17 @@ module.exports = function (grunt) {
         exec: 'node ./src/index.js'
       },
       build: {
-        exec: 'browserify ./src/index.js --standalone nlpSyllables -o ./builds/nlp-syllables.es5.js -t [ babelify --presets [ es2015 ] ]'
+        exec: 'browserify ./src/index.js --standalone nlpSyllables -o ./builds/nlp-syllables.latest.js -t [ babelify --presets [ es2015 ] ]'
+      },
+      copy: {
+        exec: 'cp ./builds/nlp-syllables.latest.js ./builds/nlp-syllables.<%=pkg.version%>.js'
       }
     },
 
     filesize: {
       base: {
         files: [{
-          src: ['./builds/nlp-syllables.es5.js']
+          src: ['./builds/nlp-syllables.latest.js']
         }],
         options: {
           ouput: [{
@@ -65,5 +70,5 @@ module.exports = function (grunt) {
   grunt.registerTask('watch', ['watch']);
   grunt.registerTask('coverage', ['mocha_istanbul']);
   grunt.registerTask('test', ['mochaTest']);
-  grunt.registerTask('build', ['mochaTest', 'run:build', 'filesize']);
+  grunt.registerTask('build', ['mochaTest', 'run:build', 'run:copy', 'filesize']);
 };
