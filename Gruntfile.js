@@ -14,17 +14,14 @@ module.exports = function (grunt) {
         exec: 'node ./src/index.js'
       },
       build: {
-        exec: 'browserify ./src/index.js --standalone nlpSyllables -o ./builds/nlp-syllables.latest.js -t [ babelify --presets [ es2015 ] ]'
-      },
-      copy: {
-        exec: 'cp ./builds/nlp-syllables.latest.js ./builds/nlp-syllables.<%=pkg.version%>.js'
+        exec: 'browserify ./src/index.js --standalone nlpSyllables -o ./builds/nlp-syllables.js -t [ babelify --presets [ es2015 ] ]'
       }
     },
 
     filesize: {
       base: {
         files: [{
-          src: ['./builds/nlp-syllables.latest.js']
+          src: ['./builds/nlp-syllables.js']
         }],
         options: {
           ouput: [{
@@ -34,6 +31,24 @@ module.exports = function (grunt) {
       }
     },
 
+    uglify: {
+      'do': {
+        src: ['./builds/nlp-syllables.js'],
+        dest: './builds/nlp-syllables.min.js'
+      },
+      'options': {
+        preserveComments: false,
+        mangle: true,
+        banner: ' /*nlp-syllables <%= pkg.version %>  MIT*/\n\n',
+        compress: {
+          drop_console: true,
+          dead_code: true,
+          properties: true,
+          unused: true,
+          warnings: true
+        }
+      }
+    },
     mochaTest: {
       test: {
         options: {
@@ -61,6 +76,7 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-run');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-filesize');
@@ -70,5 +86,5 @@ module.exports = function (grunt) {
   grunt.registerTask('watch', ['watch']);
   grunt.registerTask('coverage', ['mocha_istanbul']);
   grunt.registerTask('test', ['mochaTest']);
-  grunt.registerTask('build', ['mochaTest', 'run:build', 'run:copy', 'filesize']);
+  grunt.registerTask('build', ['mochaTest', 'run:build', 'uglify', 'filesize']);
 };
