@@ -1,6 +1,20 @@
 //chop a string into pronounced syllables
 'use strict';
 
+const ones = [
+  /^[^aeiou]?ion/,
+  /^[^aeiou]?ised/,
+  /^[^aeiou]?iled/
+];
+const all_spaces = / /g;
+const ends_with_vowel = /[aeiouy]$/;
+const starts_with_e_then_specials = /^e[sm]/;
+const starts_with_e = /^e/;
+const ends_with_noisy_vowel_combos = /(eo|eu|ia|oa|ua|ui)$/i;
+const aiouy = /[aiouy]/;
+const ends_with_ee = /ee$/;
+const whitespace_dash = /\s\-/;
+
 //suffix fixes
 function postprocess(arr) {
   //trim whitespace
@@ -13,11 +27,7 @@ function postprocess(arr) {
   // if (arr.length > 2) {
   //   return arr;
   // }
-  const ones = [
-    /^[^aeiou]?ion/,
-    /^[^aeiou]?ised/,
-    /^[^aeiou]?iled/
-  ];
+
   const l = arr.length;
   if (l > 1) {
     const suffix = arr[l - 2] + arr[l - 1];
@@ -35,14 +45,13 @@ const syllables = function(str) {
   let all = [];
 
   if (str.match(' ')) {
-    return str.split(/ /g).map(function(s) {
+    return str.split(all_spaces).map(function(s) {
       return syllables(s);
     });
   }
 
   //method is nested because it's called recursively
   const doer = function(w) {
-    const vow = /[aeiouy]$/;
     const chars = w.split('');
     let before = '';
     let after = '';
@@ -54,30 +63,30 @@ const syllables = function(str) {
       let candidate = before + chars[i];
 
       //it's a consonant that comes after a vowel
-      if (before.match(vow) && !current.match(vow)) {
-        if (after.match(/^e[sm]/)) {
+      if (before.match(ends_with_vowel) && !current.match(ends_with_vowel)) {
+        if (after.match(starts_with_e_then_specials)) {
           candidate += 'e';
-          after = after.replace(/^e/, '');
+          after = after.replace(starts_with_e, '');
         }
         all.push(candidate);
         return doer(after);
       }
       //unblended vowels ('noisy' vowel combinations)
-      if (candidate.match(/(eo|eu|ia|oa|ua|ui)$/i)) { //'io' is noisy, not in 'ion'
+      if (candidate.match(ends_with_noisy_vowel_combos)) { //'io' is noisy, not in 'ion'
         all.push(before);
         all.push(current);
         return doer(after); //recursion
       }
     }
     //if still running, end last syllable
-    if (str.match(/[aiouy]/) || str.match(/ee$/)) { //allow silent trailing e
+    if (str.match(aiouy) || str.match(ends_with_ee)) { //allow silent trailing e
       all.push(w);
     } else {
       all[all.length - 1] = (all[all.length - 1] || '') + str; //append it to the last one
     }
   };
 
-  str.split(/\s\-/).forEach(function(s) {
+  str.split(whitespace_dash).forEach(function(s) {
     doer(s);
   });
   all = postprocess(all);
