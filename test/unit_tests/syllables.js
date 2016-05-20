@@ -9,24 +9,24 @@ nlp.plugin(syllables);
 describe('syllables', function() {
 
   //americanize it
-  it('count syllables for term', function(done) {
+  it('verify syllables for term', function(done) {
     let tests = [
-      ['suddenly', 3],
-      ['constipation', 4],
-      ['diabolic', 4],
-      ['fated', 2],
-      ['genetic', 3],
-      ['imitated', 4],
-      ['tree', 1],
-      ['civilised', 3],
-    // ['fate', 1],
-    // ['fates', 1],
-    // ['deviled', 3],
-    // ['horse', 1]
+      'sud den ly',
+      'con sti pa tion',
+      'di a bo lic',
+      'fa ted',
+      'ge ne tic',
+      'i mi ta ted',
+      'tree',
+      'ci vi lised',
+      // 'fate',
+      // 'fates',
+      // 'deviled',
+      // 'horse',
     ];
-    tests.forEach(function(a) {
-      let t = nlp.term(a[0]);
-      t.syllables().length.should.equal(a[1]);
+    tests.forEach(function(word_with_syllable_breaks) {
+      let s = nlp.term(word_with_syllable_breaks.replace(/ /g, '')).syllables();
+      s.join(' ').should.equal(word_with_syllable_breaks);
     });
     done();
   });
