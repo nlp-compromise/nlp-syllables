@@ -22,6 +22,9 @@ const ends_with_ee = /ee$/;
 const whitespace_dash = /\s\-/;
 const starts_with_consonant_vowel = /^[^aeiouy][h]?[aeiouy]/;
 const joining_consonant_vowel = /^[^aeiou][e]([^d]|$)/;
+const cvcv_same_consonant = /^([^aeiouy])[aeiouy]\1[aeiouy]/;
+const cvcv_same_vowel = /^[^aeiouy]([aeiouy])[^aeiouy]\1/;
+const cvcv_known_consonants = /^([tg][aeiouy]){2}/;
 
 //suffix fixes
 function postprocess(arr) {
@@ -54,10 +57,31 @@ function postprocess(arr) {
     let second_is_joining = arr[1].match(joining_consonant_vowel);
 
     if (first_is_open && second_is_joining) {
-      arr[0] = arr[0] + arr[1];
-      arr.splice(1,1);
+      let possible_combination = arr[0] + arr[1];
+      let probably_separate_syllables = possible_combination.match(cvcv_same_consonant) || possible_combination.match(cvcv_same_vowel) || possible_combination.match(cvcv_known_consonants);
+
+      if (!probably_separate_syllables) {
+        arr[0] = arr[0] + arr[1];
+        arr.splice(1, 1);
+      }
     }
   }
+
+  if (arr.length > 1) {
+    let second_to_last_is_open = arr[arr.length - 2].match(starts_with_consonant_vowel) && arr[arr.length - 2].match(ends_with_vowel);
+    let last_is_joining = arr[arr.length - 1].match(joining_consonant_vowel) && ones.every(re => !arr[arr.length - 1].match(re));
+
+    if (second_to_last_is_open && last_is_joining) {
+      let possible_combination = arr[arr.length - 2] + arr[arr.length - 1];
+      let probably_separate_syllables = possible_combination.match(cvcv_same_consonant) || possible_combination.match(cvcv_same_vowel) || possible_combination.match(cvcv_known_consonants);
+
+      if (!probably_separate_syllables) {
+        arr[arr.length - 2] = arr[arr.length - 2] + arr[arr.length - 1];
+        arr.splice(arr.length - 1, 1);
+      }
+    }
+  }
+
   return arr;
 }
 
