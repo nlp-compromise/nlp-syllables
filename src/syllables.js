@@ -4,7 +4,13 @@
 const ones = [
   /^[^aeiou]?ion/,
   /^[^aeiou]?ised/,
-  /^[^aeiou]?iled/
+  /^[^aeiou]?iled/,
+
+  // -ing, -ent
+  /[aeiou][n][gt]$/,
+
+  // -ate, -age
+  /\wa[gt]e$/,
 ];
 const all_spaces = / /g;
 const ends_with_vowel = /[aeiouy]$/;
