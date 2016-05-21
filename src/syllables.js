@@ -20,6 +20,8 @@ const ends_with_noisy_vowel_combos = /(eo|eu|ia|oa|ua|ui)$/i;
 const aiouy = /[aiouy]/;
 const ends_with_ee = /ee$/;
 const whitespace_dash = /\s\-/;
+const starts_with_consonant_vowel = /^[^aeiouy][h]?[aeiouy]/;
+const joining_consonant_vowel = /^[^aeiou][e]([^d]|$)/;
 
 //suffix fixes
 function postprocess(arr) {
@@ -42,6 +44,18 @@ function postprocess(arr) {
         arr[l - 2] = arr[l - 2] + arr[l - 1];
         arr.pop();
       }
+    }
+  }
+
+  // since the open syllable detection is overzealous,
+  // sometimes need to rejoin incorrect splits
+  if (arr.length > 1) {
+    let first_is_open = (arr[0].length == 1 || arr[0].match(starts_with_consonant_vowel)) && arr[0].match(ends_with_vowel);
+    let second_is_joining = arr[1].match(joining_consonant_vowel);
+
+    if (first_is_open && second_is_joining) {
+      arr[0] = arr[0] + arr[1];
+      arr.splice(1,1);
     }
   }
   return arr;
@@ -77,11 +91,18 @@ const syllables = function(str) {
         all.push(candidate);
         return doer(after);
       }
+
       //unblended vowels ('noisy' vowel combinations)
       if (candidate.match(ends_with_noisy_vowel_combos)) { //'io' is noisy, not in 'ion'
         all.push(before);
         all.push(current);
         return doer(after); //recursion
+      }
+
+      // if candidate is followed by a CV, assume consecutive open syllables
+      if (candidate.match(ends_with_vowel) && after.match(starts_with_consonant_vowel)) {
+        all.push(candidate);
+        return doer(after);
       }
     }
     //if still running, end last syllable
