@@ -19,6 +19,7 @@ describe('syllables', function() {
       'i mi ta ted',
       'tree',
       'ci vi lised',
+      'went',
       // 'fate',
       // 'fates',
       // 'deviled',

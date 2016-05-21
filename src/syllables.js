@@ -82,7 +82,7 @@ const syllables = function(str) {
     if (str.match(aiouy) || str.match(ends_with_ee)) { //allow silent trailing e
       all.push(w);
     } else {
-      all[all.length - 1] = (all[all.length - 1] || '') + str; //append it to the last one
+      all[all.length - 1] = (all[all.length - 1] || '') + w; //append it to the last one
     }
   };
 
