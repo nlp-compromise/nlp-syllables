@@ -21,7 +21,7 @@ function postprocess(arr) {
   const l = arr.length;
   if (l > 1) {
     const suffix = arr[l - 2] + arr[l - 1];
-    for (let i = 0; i < ones.length; i++) {
+    for (var i = 0; i < ones.length; i++) {
       if (suffix.match(ones[i])) {
         arr[l - 2] = arr[l - 2] + arr[l - 1];
         arr.pop();
@@ -32,7 +32,7 @@ function postprocess(arr) {
 }
 
 const syllables = function(str) {
-  let all = [];
+  var all = [];
 
   if (str.match(' ')) {
     return str.split(/ /g).map(function(s) {
@@ -44,14 +44,14 @@ const syllables = function(str) {
   const doer = function(w) {
     const vow = /[aeiouy]$/;
     const chars = w.split('');
-    let before = '';
-    let after = '';
-    let current = '';
-    for (let i = 0; i < chars.length; i++) {
+    var before = '';
+    var after = '';
+    var current = '';
+    for (var i = 0; i < chars.length; i++) {
       before = chars.slice(0, i).join('');
       current = chars[i];
       after = chars.slice(i + 1, chars.length).join('');
-      let candidate = before + chars[i];
+      var candidate = before + chars[i];
 
       //it's a consonant that comes after a vowel
       if (before.match(vow) && !current.match(vow)) {
