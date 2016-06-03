@@ -13,14 +13,14 @@ function postprocess(arr) {
   // if (arr.length > 2) {
   //   return arr;
   // }
-  const ones = [
+  var ones = [
     /^[^aeiou]?ion/,
     /^[^aeiou]?ised/,
     /^[^aeiou]?iled/
   ];
-  const l = arr.length;
+  var l = arr.length;
   if (l > 1) {
-    const suffix = arr[l - 2] + arr[l - 1];
+    var suffix = arr[l - 2] + arr[l - 1];
     for (var i = 0; i < ones.length; i++) {
       if (suffix.match(ones[i])) {
         arr[l - 2] = arr[l - 2] + arr[l - 1];
@@ -31,7 +31,7 @@ function postprocess(arr) {
   return arr;
 }
 
-const syllables = function(str) {
+var syllables = function(str) {
   var all = [];
 
   if (str.match(' ')) {
@@ -41,9 +41,9 @@ const syllables = function(str) {
   }
 
   //method is nested because it's called recursively
-  const doer = function(w) {
-    const vow = /[aeiouy]$/;
-    const chars = w.split('');
+  var doer = function(w) {
+    var vow = /[aeiouy]$/;
+    var chars = w.split('');
     var before = '';
     var after = '';
     var current = '';
