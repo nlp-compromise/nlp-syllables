@@ -1,9 +1,9 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.nlpSyllables = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-const syllables = require('./syllables');
+var syllables = require('./syllables');
 
 // set method on 'Term', then reference that on Sentence & Text
-const nlpSyllables = {
+var nlpSyllables = {
   Term: {
     syllables : function() {
       return syllables(this.normal);
@@ -48,14 +48,14 @@ function postprocess(arr) {
   // if (arr.length > 2) {
   //   return arr;
   // }
-  const ones = [
+  var ones = [
     /^[^aeiou]?ion/,
     /^[^aeiou]?ised/,
     /^[^aeiou]?iled/
   ];
-  const l = arr.length;
+  var l = arr.length;
   if (l > 1) {
-    const suffix = arr[l - 2] + arr[l - 1];
+    var suffix = arr[l - 2] + arr[l - 1];
     for (var i = 0; i < ones.length; i++) {
       if (suffix.match(ones[i])) {
         arr[l - 2] = arr[l - 2] + arr[l - 1];
@@ -66,7 +66,7 @@ function postprocess(arr) {
   return arr;
 }
 
-const syllables = function(str) {
+var syllables = function(str) {
   var all = [];
 
   if (str.match(' ')) {
@@ -76,9 +76,9 @@ const syllables = function(str) {
   }
 
   //method is nested because it's called recursively
-  const doer = function(w) {
-    const vow = /[aeiouy]$/;
-    const chars = w.split('');
+  var doer = function(w) {
+    var vow = /[aeiouy]$/;
+    var chars = w.split('');
     var before = '';
     var after = '';
     var current = '';
