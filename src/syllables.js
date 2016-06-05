@@ -17,6 +17,7 @@ const ends_with_vowel = /[aeiouy]$/;
 const starts_with_e_then_specials = /^e[sm]/;
 const starts_with_e = /^e/;
 const ends_with_noisy_vowel_combos = /(eo|eu|ia|oa|ua|ui)$/i;
+const starts_with_single_vowel_combos = /^(eu)/i;
 const aiouy = /[aiouy]/;
 const ends_with_ee = /ee$/;
 const whitespace_dash = /\s\-/;
@@ -79,6 +80,14 @@ function postprocess(arr) {
         arr[arr.length - 2] = arr[arr.length - 2] + arr[arr.length - 1];
         arr.splice(arr.length - 1, 1);
       }
+    }
+  }
+
+  if (arr.length > 1) {
+    let single = arr[0] + arr[1];
+    if (single.match(starts_with_single_vowel_combos)) {
+      arr[0] = single;
+      arr.splice(1, 1);
     }
   }
 

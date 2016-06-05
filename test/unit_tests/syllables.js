@@ -41,6 +41,7 @@ describe('syllables', function() {
       'cause',
       'fate',
       'fates',
+      'eu lo gy',
       // 'deviled',
       // 'horse',
     ];
