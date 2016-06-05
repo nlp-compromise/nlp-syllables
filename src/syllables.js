@@ -26,6 +26,7 @@ const joining_consonant_vowel = /^[^aeiou][e]([^d]|$)/;
 const cvcv_same_consonant = /^([^aeiouy])[aeiouy]\1[aeiouy]/;
 const cvcv_same_vowel = /^[^aeiouy]([aeiouy])[^aeiouy]\1/;
 const cvcv_known_consonants = /^([tg][aeiouy]){2}/;
+const only_one_or_more_c = /^[^aeiouy]+$/;
 
 //suffix fixes
 function postprocess(arr) {
@@ -88,6 +89,13 @@ function postprocess(arr) {
     if (single.match(starts_with_single_vowel_combos)) {
       arr[0] = single;
       arr.splice(1, 1);
+    }
+  }
+
+  if (arr.length > 1) {
+    if (arr[arr.length - 1].match(only_one_or_more_c)) {
+      arr[arr.length - 2] = arr[arr.length - 2] + arr[arr.length - 1];
+      arr.splice(arr.length - 1, 1);
     }
   }
 

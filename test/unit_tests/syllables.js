@@ -42,6 +42,9 @@ describe('syllables', function() {
       'fate',
       'fates',
       'eu lo gy',
+      'e on',
+      'rea sons',
+      'and',
       // 'deviled',
       // 'horse',
     ];
