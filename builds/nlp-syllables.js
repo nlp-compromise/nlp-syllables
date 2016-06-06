@@ -1,11 +1,7 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.nlpSyllables = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-<<<<<<< HEAD
 
 var _syllables = require('./syllables');
-=======
-var syllables = require('./syllables');
->>>>>>> 985205e2ad2f5b94751bebf107a7cbd42ec367ed
 
 // set method on 'Term', then reference that on Sentence & Text
 var nlpSyllables = {
@@ -76,15 +72,6 @@ function postprocess(arr) {
   // if (arr.length > 2) {
   //   return arr;
   // }
-<<<<<<< HEAD
-
-=======
-  var ones = [
-    /^[^aeiou]?ion/,
-    /^[^aeiou]?ised/,
-    /^[^aeiou]?iled/
-  ];
->>>>>>> 985205e2ad2f5b94751bebf107a7cbd42ec367ed
   var l = arr.length;
   if (l > 1) {
     var suffix = arr[l - 2] + arr[l - 1];
@@ -99,7 +86,7 @@ function postprocess(arr) {
   // since the open syllable detection is overzealous,
   // sometimes need to rejoin incorrect splits
   if (arr.length > 1) {
-    var first_is_open = (arr[0].length == 1 || arr[0].match(starts_with_consonant_vowel)) && arr[0].match(ends_with_vowel);
+    var first_is_open = (arr[0].length === 1 || arr[0].match(starts_with_consonant_vowel)) && arr[0].match(ends_with_vowel);
     var second_is_joining = arr[1].match(joining_consonant_vowel);
 
     if (first_is_open && second_is_joining) {
@@ -120,10 +107,10 @@ function postprocess(arr) {
     });
 
     if (second_to_last_is_open && last_is_joining) {
-      var possible_combination = arr[arr.length - 2] + arr[arr.length - 1];
-      var probably_separate_syllables = possible_combination.match(cvcv_same_consonant) || possible_combination.match(cvcv_same_vowel) || possible_combination.match(cvcv_known_consonants);
+      var _possible_combination = arr[arr.length - 2] + arr[arr.length - 1];
+      var _probably_separate_syllables = _possible_combination.match(cvcv_same_consonant) || _possible_combination.match(cvcv_same_vowel) || _possible_combination.match(cvcv_known_consonants);
 
-      if (!probably_separate_syllables) {
+      if (!_probably_separate_syllables) {
         arr[arr.length - 2] = arr[arr.length - 2] + arr[arr.length - 1];
         arr.splice(arr.length - 1, 1);
       }
@@ -148,11 +135,7 @@ function postprocess(arr) {
   return arr;
 }
 
-<<<<<<< HEAD
 var syllables = function syllables(str) {
-=======
-var syllables = function(str) {
->>>>>>> 985205e2ad2f5b94751bebf107a7cbd42ec367ed
   var all = [];
 
   if (str.match(' ')) {
@@ -162,12 +145,8 @@ var syllables = function(str) {
   }
 
   //method is nested because it's called recursively
-<<<<<<< HEAD
   var doer = function doer(w) {
-=======
-  var doer = function(w) {
     var vow = /[aeiouy]$/;
->>>>>>> 985205e2ad2f5b94751bebf107a7cbd42ec367ed
     var chars = w.split('');
     var before = '';
     var after = '';
@@ -209,6 +188,7 @@ var syllables = function(str) {
     } else {
       all[all.length - 1] = (all[all.length - 1] || '') + w; //append it to the last one
     }
+    return null;
   };
 
   str.split(whitespace_dash).forEach(function (s) {
