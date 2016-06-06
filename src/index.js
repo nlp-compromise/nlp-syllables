@@ -1,8 +1,8 @@
 'use strict';
-const syllables = require('./syllables');
+var syllables = require('./syllables');
 
 // set method on 'Term', then reference that on Sentence & Text
-const nlpSyllables = {
+var nlpSyllables = {
   Term: {
     syllables : function() {
       return syllables(this.normal);

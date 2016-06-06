@@ -40,11 +40,10 @@ function postprocess(arr) {
   // if (arr.length > 2) {
   //   return arr;
   // }
-
-  const l = arr.length;
+  let l = arr.length;
   if (l > 1) {
-    const suffix = arr[l - 2] + arr[l - 1];
-    for (var i = 0; i < ones.length; i++) {
+    let suffix = arr[l - 2] + arr[l - 1];
+    for (let i = 0; i < ones.length; i++) {
       if (suffix.match(ones[i])) {
         arr[l - 2] = arr[l - 2] + arr[l - 1];
         arr.pop();
@@ -55,7 +54,7 @@ function postprocess(arr) {
   // since the open syllable detection is overzealous,
   // sometimes need to rejoin incorrect splits
   if (arr.length > 1) {
-    let first_is_open = (arr[0].length == 1 || arr[0].match(starts_with_consonant_vowel)) && arr[0].match(ends_with_vowel);
+    let first_is_open = (arr[0].length === 1 || arr[0].match(starts_with_consonant_vowel)) && arr[0].match(ends_with_vowel);
     let second_is_joining = arr[1].match(joining_consonant_vowel);
 
     if (first_is_open && second_is_joining) {
@@ -102,8 +101,8 @@ function postprocess(arr) {
   return arr;
 }
 
-const syllables = function(str) {
-  var all = [];
+let syllables = function(str) {
+  let all = [];
 
   if (str.match(' ')) {
     return str.split(all_spaces).map(function(s) {
@@ -112,16 +111,17 @@ const syllables = function(str) {
   }
 
   //method is nested because it's called recursively
-  const doer = function(w) {
-    const chars = w.split('');
-    var before = '';
-    var after = '';
-    var current = '';
-    for (var i = 0; i < chars.length; i++) {
+  let doer = function(w) {
+    let vow = /[aeiouy]$/;
+    let chars = w.split('');
+    let before = '';
+    let after = '';
+    let current = '';
+    for (let i = 0; i < chars.length; i++) {
       before = chars.slice(0, i).join('');
       current = chars[i];
       after = chars.slice(i + 1, chars.length).join('');
-      var candidate = before + chars[i];
+      let candidate = before + chars[i];
 
       //it's a consonant that comes after a vowel
       if (before.match(ends_with_vowel) && !current.match(ends_with_vowel)) {
@@ -152,6 +152,7 @@ const syllables = function(str) {
     } else {
       all[all.length - 1] = (all[all.length - 1] || '') + w; //append it to the last one
     }
+    return null;
   };
 
   str.split(whitespace_dash).forEach(function(s) {
