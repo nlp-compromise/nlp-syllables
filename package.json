@@ -2,7 +2,7 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "nlp-syllables",
   "description": "splitting of text into syllables",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "src/index.js",
   "repository": {
     "type": "git",
