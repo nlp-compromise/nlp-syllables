@@ -107,10 +107,10 @@ function postprocess(arr) {
     });
 
     if (second_to_last_is_open && last_is_joining) {
-      var _possible_combination = arr[arr.length - 2] + arr[arr.length - 1];
-      var _probably_separate_syllables = _possible_combination.match(cvcv_same_consonant) || _possible_combination.match(cvcv_same_vowel) || _possible_combination.match(cvcv_known_consonants);
+      var possible_combination = arr[arr.length - 2] + arr[arr.length - 1];
+      var probably_separate_syllables = possible_combination.match(cvcv_same_consonant) || possible_combination.match(cvcv_same_vowel) || possible_combination.match(cvcv_known_consonants);
 
-      if (!_probably_separate_syllables) {
+      if (!probably_separate_syllables) {
         arr[arr.length - 2] = arr[arr.length - 2] + arr[arr.length - 1];
         arr.splice(arr.length - 1, 1);
       }

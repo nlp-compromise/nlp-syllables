@@ -1,0 +1,61 @@
+<html>
+<head>
+<style>
+  body{
+    font-size:30px;
+    margin:15%;
+  }
+</style>
+<script type="text/javascript" src="https://npmcdn.com/nlp-syllables@latest/builds/nlp-syllables.js" ></script>
+<script type="text/javascript" src="https://rawgit.com/nlp-compromise/nlp_compromise/new_tests/builds/nlp_compromise.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js" ></script>
+
+</head>
+<body>
+  <div id="text">
+  Oh, wee-ooh, I look just like Buddy Holly.
+  Oh, oh, and you're Mary Tyler Moore.
+  I don't care what they say about us anyway.
+  I don't care 'bout that.
+</div>
+</body>
+<script type="text/javascript" >
+
+function encodeWhitespace(str){
+  return str.replace(/ /g,'&nbsp;')
+}
+
+
+
+//render each syllable of a term as a span
+function printTerm(t){
+  var word='<span>'+encodeWhitespace(t.whitespace.preceding)+'</span>'
+  var colors = ['white','#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2']
+  var syllables= _.flatten(t.syllables())
+  console.log(syllables)
+  for(var i=0; i<syllables.length; i++){
+    var style='background-color:'+colors[i]+';'
+    word+='<span style="background-color:'+colors[i]+';">'+syllables[i]+'</span>'
+  }
+  word+='<span>'+encodeWhitespace(t.whitespace.trailing)+'</span>'
+  return '<span>'+word+' </span>'
+}
+
+  //fetch the text
+  var el=document.getElementById('text')
+  var str=el.innerText
+  //give it to nlp_comp
+  nlp_compromise.plugin(nlpSyllables)
+  var text=nlp_compromise.text(str)
+  console.log(text)
+
+  //add .syllables to each term object
+  var html=''
+  var terms=text.terms()
+  console.log(terms)
+  for(var i=0; i<terms.length; i++){
+    html+=printTerm(terms[i])
+  }
+  el.innerHTML=html
+</script>
+</html>
